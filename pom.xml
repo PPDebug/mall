@@ -5,6 +5,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>mall-common</module>
+        <module>mall-mbg</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -12,7 +13,7 @@
         <version>2.3.0.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>online.pengpeng</groupId>
+    <groupId>online.pengpeng.mall</groupId>
     <artifactId>mall</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>mall</name>
