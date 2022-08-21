@@ -3,7 +3,6 @@ package online.pengpeng.mall.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.digest.BCrypt;
-import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.json.JSONUtil;
 import com.github.pagehelper.PageHelper;
 import lombok.AllArgsConstructor;
@@ -25,6 +24,7 @@ import online.pengpeng.mall.service.UmsAdminService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -43,15 +43,22 @@ import java.util.stream.Collectors;
  * @date 2022/8/19
  */
 @Service
-@AllArgsConstructor
 public class UmsAdminServiceImpl implements UmsAdminService {
     private static final Logger LOGGER = LoggerFactory.getLogger(UmsAdminServiceImpl.class);
-    private final UmsAdminMapper adminMapper;
-    private final UmsAdminRoleRelationMapper adminRoleRelationMapper;
-    private final UmsAdminRoleRelationDao adminRoleRelationDao;
-    private final UmsAdminLoginLogMapper loginLogMapper;
-    private final AuthService authService;
-    private final HttpServletRequest request;
+    @Autowired
+    private UmsAdminMapper adminMapper;
+    @Autowired
+    private UmsAdminRoleRelationMapper adminRoleRelationMapper;
+    @Autowired
+    private UmsAdminRoleRelationDao adminRoleRelationDao;
+    @Autowired
+    private UmsAdminLoginLogMapper loginLogMapper;
+    @Autowired
+    private AuthService authService;
+    @Autowired
+    private HttpServletRequest request;
+    @Autowired
+    private UmsAdminCacheService adminCacheService;
 
     @Override
     public UmsAdmin getAdminByUsername(String username) {
@@ -156,14 +163,14 @@ public class UmsAdminServiceImpl implements UmsAdminService {
             }
         }
         int count = adminMapper.updateByPrimaryKeySelective(admin);
-        getCacheService().delAdmin(id);
+        adminCacheService.delAdmin(id);
         return count;
     }
 
     @Override
     public int delete(Long id) {
         int count = adminMapper.deleteByPrimaryKey(id);
-        getCacheService().delAdmin(id);
+        adminCacheService.delAdmin(id);
         return count;
     }
 
@@ -217,7 +224,7 @@ public class UmsAdminServiceImpl implements UmsAdminService {
         }
         umsAdmin.setPassword(BCrypt.hashpw(param.getNewPassword()));
         adminMapper.updateByPrimaryKey(umsAdmin);
-        getCacheService().delAdmin(umsAdmin.getId());
+        adminCacheService.delAdmin(umsAdmin.getId());
         return 1;
     }
 
@@ -241,22 +248,21 @@ public class UmsAdminServiceImpl implements UmsAdminService {
     @Override
     public UmsAdmin getCurrentAdmin() {
         String userStr = request.getHeader(AuthConstant.USER_TOKEN_HEADER);
+        LOGGER.info(userStr);
         if(StrUtil.isEmpty(userStr)){
             Asserts.fail(ResultCode.UNAUTHORIZED);
         }
         UserDto userDto = JSONUtil.toBean(userStr, UserDto.class);
-        UmsAdmin admin = getCacheService().getAdmin(userDto.getId());
+        UmsAdmin admin = adminCacheService.getAdmin(userDto.getId());
         if(admin!=null){
             return admin;
         }else{
+            LOGGER.info(userDto.toString());
             admin = adminMapper.selectByPrimaryKey(userDto.getId());
-            getCacheService().setAdmin(admin);
+            LOGGER.info(admin.toString());
+            adminCacheService.setAdmin(admin);
             return admin;
         }
     }
 
-    @Override
-    public UmsAdminCacheService getCacheService() {
-        return SpringUtil.getBean(UmsAdminCacheService.class);
-    }
 }

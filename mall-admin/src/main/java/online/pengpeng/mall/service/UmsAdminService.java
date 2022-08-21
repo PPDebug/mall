@@ -86,8 +86,4 @@ public interface UmsAdminService {
      */
     UmsAdmin getCurrentAdmin();
 
-    /**
-     * 获取缓存服务
-     */
-    UmsAdminCacheService getCacheService();
 }
