@@ -32,8 +32,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/oauth/token")
                 .permitAll()
 
+
                 .anyRequest()
                 .authenticated();
+        http.csrf().disable();
     }
 
     @Bean

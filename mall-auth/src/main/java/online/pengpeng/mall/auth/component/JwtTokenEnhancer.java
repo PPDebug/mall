@@ -21,6 +21,8 @@ public class JwtTokenEnhancer implements TokenEnhancer {
     public OAuth2AccessToken enhance(OAuth2AccessToken oAuth2AccessToken, OAuth2Authentication oAuth2Authentication) {
         SecurityUser securityUser = (SecurityUser) oAuth2Authentication.getPrincipal();
         Map<String, Object> info = new HashMap<>();
+        //把用户ID设置到JWT中
+        info.put("id", securityUser.getId());
         info.put("client_id",securityUser.getClientId());
         ((DefaultOAuth2AccessToken) oAuth2AccessToken).setAdditionalInformation(info);
         return oAuth2AccessToken;
