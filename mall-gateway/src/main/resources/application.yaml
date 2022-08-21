@@ -23,12 +23,12 @@ spring:
             - Path=/mall-admin/**
           filters:
             - StripPrefix=1
-#        - id: mall-portal
-#          uri: lb://mall-portal
-#          predicates:
-#            - Path=/mall-portal/**
-#          filters:
-#            - StripPrefix=1
+        - id: mall-portal
+          uri: lb://mall-portal
+          predicates:
+            - Path=/mall-portal/**
+          filters:
+            - StripPrefix=1
 #        - id: mall-search
 #          uri: lb://mall-search
 #          predicates:

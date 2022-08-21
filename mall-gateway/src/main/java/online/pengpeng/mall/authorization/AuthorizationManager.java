@@ -73,9 +73,11 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
             String userStr = jwsObject.getPayload().toString();
             UserDto userDto = JSONUtil.toBean(userStr, UserDto.class);
             if (AuthConstant.ADMIN_CLIENT_ID.equals(userDto.getClientId()) && !pathMatcher.match(AuthConstant.ADMIN_URL_PATTERN, uri.getPath())) {
+                log.error("管理员用户从前台登录");
                 return Mono.just(new AuthorizationDecision(false));
             }
-            if (AuthConstant.PORTAL_CLIENT_ID.equals(userDto.getClientId()) && !pathMatcher.match(AuthConstant.PORTAL_CLIENT_ID, uri.getPath())) {
+            if (AuthConstant.PORTAL_CLIENT_ID.equals(userDto.getClientId()) && pathMatcher.match(AuthConstant.ADMIN_URL_PATTERN, uri.getPath())) {
+                log.error("前台用户从后台登录");
                 return Mono.just(new AuthorizationDecision(false));
             }
         } catch (ParseException e) {
