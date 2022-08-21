@@ -12,7 +12,7 @@ import java.util.List;
  * 用户登录信息
  */
 @Data
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 public class UserDto {
     private Long id;
