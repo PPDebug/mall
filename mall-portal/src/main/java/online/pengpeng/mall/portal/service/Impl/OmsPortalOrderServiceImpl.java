@@ -32,7 +32,6 @@ import java.util.stream.Collectors;
  * @date 2022/8/22
  */
 @Service
-@AllArgsConstructor
 public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
     private final UmsMemberService memberService;
     private final OmsCartItemService cartItemService;
@@ -50,10 +49,28 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
     private final OmsOrderItemMapper orderItemMapper;
     private final CancelOrderSender cancelOrderSender;
 
+    public OmsPortalOrderServiceImpl(UmsMemberService memberService, OmsCartItemService cartItemService, UmsMemberReceiveAddressService memberReceiveAddressService, UmsMemberCouponService memberCouponService, UmsIntegrationConsumeSettingMapper integrationConsumeSettingMapper, PmsSkuStockMapper skuStockMapper, SmsCouponHistoryDao couponHistoryDao, RedisService redisService, OmsOrderMapper orderMapper, PortalOrderItemDao orderItemDao, SmsCouponHistoryMapper couponHistoryMapper, PortalOrderDao portalOrderDao, OmsOrderSettingMapper orderSettingMapper, OmsOrderItemMapper orderItemMapper, CancelOrderSender cancelOrderSender) {
+        this.memberService = memberService;
+        this.cartItemService = cartItemService;
+        this.memberReceiveAddressService = memberReceiveAddressService;
+        this.memberCouponService = memberCouponService;
+        this.integrationConsumeSettingMapper = integrationConsumeSettingMapper;
+        this.skuStockMapper = skuStockMapper;
+        this.couponHistoryDao = couponHistoryDao;
+        this.redisService = redisService;
+        this.orderMapper = orderMapper;
+        this.orderItemDao = orderItemDao;
+        this.couponHistoryMapper = couponHistoryMapper;
+        this.portalOrderDao = portalOrderDao;
+        this.orderSettingMapper = orderSettingMapper;
+        this.orderItemMapper = orderItemMapper;
+        this.cancelOrderSender = cancelOrderSender;
+    }
+
     @Value("${redis.key.orderId}")
-    private static String REDIS_KEY_ORDER_ID;
+    private String REDIS_KEY_ORDER_ID;
     @Value("${redis.database}")
-    private static String REDIS_DATABASE;
+    private String REDIS_DATABASE;
 
     @Override
     public ConfirmOrderResult generateConfirmOrder(List<Long> cartIds) {

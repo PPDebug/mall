@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
  * @date 2022/8/28
  */
 @Service
-@AllArgsConstructor
 public class OmsPortalOrderReturnApplyServiceImpl implements OmsPortalOrderReturnApplyService {
     private final UmsMemberService memberService;
     private final OmsCartItemService cartItemService;
@@ -34,10 +33,27 @@ public class OmsPortalOrderReturnApplyServiceImpl implements OmsPortalOrderRetur
     private final OmsOrderItemMapper orderItemMapper;
     private final CancelOrderSender cancelOrderSender;
 
+    public OmsPortalOrderReturnApplyServiceImpl(UmsMemberService memberService, OmsCartItemService cartItemService, UmsMemberCouponService memberCouponService, UmsMemberReceiveAddressService memberReceiveAddressService, UmsIntegrationConsumeSettingMapper integrationConsumeSettingMapper, PmsSkuStockMapper skuStockMapper, SmsCouponHistoryDao historyDao, OmsOrderMapper orderMapper, PortalOrderItemDao portalOrderItemDao, RedisConfig redisConfig, PortalOrderDao portalOrderDao, OmsOrderSettingMapper orderSettingMapper, OmsOrderItemMapper orderItemMapper, CancelOrderSender cancelOrderSender) {
+        this.memberService = memberService;
+        this.cartItemService = cartItemService;
+        this.memberCouponService = memberCouponService;
+        this.memberReceiveAddressService = memberReceiveAddressService;
+        this.integrationConsumeSettingMapper = integrationConsumeSettingMapper;
+        this.skuStockMapper = skuStockMapper;
+        this.historyDao = historyDao;
+        this.orderMapper = orderMapper;
+        this.portalOrderItemDao = portalOrderItemDao;
+        this.redisConfig = redisConfig;
+        this.portalOrderDao = portalOrderDao;
+        this.orderSettingMapper = orderSettingMapper;
+        this.orderItemMapper = orderItemMapper;
+        this.cancelOrderSender = cancelOrderSender;
+    }
+
     @Value("${redis.key.orderId}")
-    private static String REDIS_KEY_ORDER_ID;
+    private String REDIS_KEY_ORDER_ID;
     @Value("${redis.database}")
-    private static String REDIS_DATABASE;
+    private String REDIS_DATABASE;
 
     @Override
     public int create(OmsOrderReturnApplyParam returnApply) {
