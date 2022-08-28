@@ -9,7 +9,6 @@ import online.pengpeng.mall.mapper.UmsRoleMapper;
 import online.pengpeng.mall.mapper.UmsRoleResourceRelationMapper;
 import online.pengpeng.mall.model.*;
 import online.pengpeng.mall.service.UmsResourceService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -22,14 +21,17 @@ import java.util.stream.Collectors;
  */
 @Service
 public class UmsResourceServiceImpl implements UmsResourceService {
-    @Autowired
-    private UmsResourceMapper resourceMapper;
-    @Autowired
-    private UmsRoleMapper roleMapper;
-    @Autowired
-    private UmsRoleResourceRelationMapper roleResourceRelationMapper;
-    @Autowired
-    private RedisService redisService;
+    private final UmsResourceMapper resourceMapper;
+    private final UmsRoleMapper roleMapper;
+    private final UmsRoleResourceRelationMapper roleResourceRelationMapper;
+    private final RedisService redisService;
+
+    public UmsResourceServiceImpl(UmsResourceMapper resourceMapper, UmsRoleMapper roleMapper, UmsRoleResourceRelationMapper roleResourceRelationMapper, RedisService redisService) {
+        this.resourceMapper = resourceMapper;
+        this.roleMapper = roleMapper;
+        this.roleResourceRelationMapper = roleResourceRelationMapper;
+        this.redisService = redisService;
+    }
 
     @Value("${spring.application.name}")
     private String applicationName;
