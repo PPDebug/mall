@@ -1,6 +1,7 @@
 package online.pengpeng.mall.component;
 
 import cn.hutool.json.JSONUtil;
+import lombok.extern.slf4j.Slf4j;
 import online.pengpeng.mall.common.api.CommonResult;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
@@ -22,6 +23,7 @@ import java.nio.charset.Charset;
  * 是基于Flux异步的Mono类型
  */
 @Component
+@Slf4j
 public class RestfulAccessDeniedHandler implements ServerAccessDeniedHandler {
     @Override
     public Mono<Void> handle(ServerWebExchange exchange, AccessDeniedException denied) {
@@ -30,6 +32,7 @@ public class RestfulAccessDeniedHandler implements ServerAccessDeniedHandler {
         response.getHeaders().set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         response.getHeaders().set("Access-Control-Allow-Origin","*");
         response.getHeaders().set("Cache-Control","no-cache");
+        log.debug("不具有权限，拒绝服务");
         String body= JSONUtil.toJsonStr(CommonResult.forbidden(denied.getMessage()));
         DataBuffer buffer =  response.bufferFactory().wrap(body.getBytes(Charset.forName("UTF-8")));
         return response.writeWith(Mono.just(buffer));

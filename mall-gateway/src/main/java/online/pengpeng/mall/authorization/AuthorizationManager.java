@@ -46,13 +46,14 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
     public Mono<AuthorizationDecision> check(Mono<Authentication> mono, AuthorizationContext authorizationContext) {
         ServerHttpRequest request = authorizationContext.getExchange().getRequest();
         URI uri = request.getURI();
+        log.debug("权限检查开始, uri: {}, 待匹配字路径: {}", uri, uri.getPath());
         PathMatcher pathMatcher = new AntPathMatcher();
 
         // 白名单路径直接放行
         List<String> ignoreUrls = ignoreUrlsConfig.getUrls();
         for (String ignoreUrl : ignoreUrls) {
             if (pathMatcher.match(ignoreUrl, uri.getPath())) {
-                log.info("{} match {}", ignoreUrl, uri.getPath());
+                log.debug("白名单放行: {} match {}", ignoreUrl, uri.getPath());
                 return Mono.just(new AuthorizationDecision(true));
             }
         }
@@ -87,10 +88,12 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
 
         // 非管理路径直接放行
         if (!pathMatcher.match(AuthConstant.ADMIN_URL_PATTERN, uri.getPath())) {
+            log.debug("非管理路径直接放行");
             return Mono.just(new AuthorizationDecision(true));
         }
 
         // 管理端路径需要校验权限
+        log.debug("管理路径检验权限");
         Map<Object, Object> resourceRolesMap = redisTemplate.opsForHash().entries(AuthConstant.RESOURCE_ROLES_MAP_KEY);
         Iterator<Object> iterator = resourceRolesMap.keySet().iterator();
         List<String> authorities = new ArrayList<>();
@@ -100,6 +103,7 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
                 authorities.addAll(Convert.toList(String.class, resourceRolesMap.get(pattern)));
             }
         }
+        log.debug("具有合法权限的角色: {}", authorities);
         authorities = authorities.stream()
                 .map(item -> AuthConstant.AUTHORITY_PREFIX + item)
                 .collect(Collectors.toList());
