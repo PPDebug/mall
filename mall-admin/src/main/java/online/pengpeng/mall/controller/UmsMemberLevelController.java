@@ -21,8 +21,9 @@ import java.util.List;
  * 会员等级管理
  */
 @RestController
-@Api(tags = "UmsMemberLevelController", description = "会员等级管理")
 @AllArgsConstructor
+@Api(tags = "UmsMemberLevelController", description = "会员等级管理")
+@RequestMapping("/memberLevel")
 public class UmsMemberLevelController {
     private final UmsMemberLevelService memberLevelService;
 
