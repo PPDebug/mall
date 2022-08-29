@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="online.pengpeng.mall.dao.OmsOrderReturnApplyDao">
+    <resultMap id="returnApplyDetailResultMap" type="online.pengpeng.mall.dto.OmsOrderReturnApplyResult" extends="online.pengpeng.mall.mapper.OmsOrderReturnApplyMapper.BaseResultMap">
+        <association property="companyAddress" resultMap="online.pengpeng.mall.mapper.OmsCompanyAddressMapper.BaseResultMap" columnPrefix="ca_"/>
+    </resultMap>
+    <select id="getList" resultMap="online.pengpeng.mall.mapper.OmsOrderReturnApplyMapper.BaseResultMap">
+        SELECT
+        id,
+        create_time,
+        member_username,
+        product_real_price,
+        product_count,
+        return_name,
+        status,
+        handle_time
+        FROM
+        oms_order_return_apply
+        WHERE
+        1 = 1
+        <if test="id!=null">
+            AND id = #{id}
+        </if>
+        <if test="status!=null">
+            AND status = #{status}
+        </if>
+        <if test="status!=null">
+            AND status = #{status}
+        </if>
+        <if test="handleMan!=null and handleMan!=''">
+            AND handle_man = #{handleMan}
+        </if>
+        <if test="createTime!=null and createTime!=''">
+            AND create_time LIKE CONCAT(#{createTime}, '%')
+        </if>
+        <if test="handleTime!=null and handleTime!=''">
+            AND handle_time LIKE CONCAT(#{handleTime}, '%')
+        </if>
+        <if test="receiverKeyword!=null and receiverKeyword!=''">
+            AND (return_name LIKE concat("%",#{receiverKeyword},"%")
+            OR return_phone LIKE concat("%",#{receiverKeyword},"%"))
+        </if>
+    </select>
+    <select id="getDetail" resultMap="returnApplyDetailResultMap">
+        SELECT
+            ra.*, ca.id ca_id,
+            ca.address_name ca_address_name,
+            ca.`name` ca_name,
+            ca.phone ca_phone,
+            ca.province ca_province,
+            ca.city ca_city,
+            ca.region ca_region,
+            ca.detail_address ca_detail_address
+        FROM
+            oms_order_return_apply ra
+                LEFT JOIN oms_company_address ca ON ra.company_address_id = ca.id
+        WHERE ra.id=#{id};
+    </select>
+</mapper>

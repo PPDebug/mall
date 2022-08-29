@@ -1,0 +1,18 @@
+package online.pengpeng.mall.service;
+
+import online.pengpeng.mall.model.OmsCompanyAddress;
+
+import java.util.List;
+
+/**
+ * 收货地址管理
+ *
+ * @author pengpeng
+ * @date 2022/8/29
+ */
+public interface OmsCompanyAddressService {
+    /**
+     * 获取全部收货地址
+     */
+    List<OmsCompanyAddress> list();
+}
