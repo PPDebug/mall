@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import online.pengpeng.mall.mapper.CmsPrefrenceAreaMapper;
 import online.pengpeng.mall.model.CmsPrefrenceArea;
 import online.pengpeng.mall.model.CmsPrefrenceAreaExample;
-import online.pengpeng.mall.service.CmsPrefrenceAreaService;
+import online.pengpeng.mall.service.CmsPreferenceAreaService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Service
 @AllArgsConstructor
-public class CmsPrefrenceAreaServiceImpl implements CmsPrefrenceAreaService {
+public class CmsPreferenceAreaServiceImpl implements CmsPreferenceAreaService {
     private final CmsPrefrenceAreaMapper prefrenceAreaMapper;
     @Override
     public List<CmsPrefrenceArea> listAll() {

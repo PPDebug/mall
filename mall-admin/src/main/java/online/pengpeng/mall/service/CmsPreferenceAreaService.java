@@ -9,7 +9,7 @@ import java.util.List;
  * @date 2022/8/28
  * 商品优选管理
  */
-public interface CmsPrefrenceAreaService {
+public interface CmsPreferenceAreaService {
     /**
      * 获取所有优选专区
      */
