@@ -1,0 +1,13 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: http://pengpeng.online:8848
+      config:
+        server-addr: http://pengpeng.online:8848
+        file-extension: yaml
+server-domain: pengpeng.online
+
+logging:
+  level:
+    root: info
