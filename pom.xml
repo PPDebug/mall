@@ -28,7 +28,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <skipTests>true</skipTests>
-        <docker.host>http://192.168.56.200:2375</docker.host>
+        <docker.host>http://localhost:2375</docker.host>
         <docker.maven.plugin.version>0.40.0</docker.maven.plugin.version>
         <java.version>1.8</java.version>
         <spring-cloud.version>Hoxton.SR5</spring-cloud.version>
@@ -42,6 +42,7 @@
         <mybatis.version>3.5.5</mybatis.version>
         <mysql-connector.version>8.0.20</mysql-connector.version>
         <spring-data-commons.version>2.3.0.RELEASE</spring-data-commons.version>
+        <common-pool2.version>2.8.0</common-pool2.version>
         <jjwt.version>0.9.0</jjwt.version>
         <aliyun-oss.version>2.5.0</aliyun-oss.version>
         <logstash-logback.version>5.3</logstash-logback.version>
@@ -170,6 +171,11 @@
                 <artifactId>spring-data-commons</artifactId>
                 <version>${spring-data-commons.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-pool2</artifactId>
+                <version>${commons-pool2.version}</version>
+            </dependency>
             <!--JWT(Json Web Token)登录支持-->
             <dependency>
                 <groupId>io.jsonwebtoken</groupId>
@@ -207,6 +213,7 @@
                 <version>${minio.version}</version>
             </dependency>
         </dependencies>
+
     </dependencyManagement>
 
     <build>
@@ -253,7 +260,7 @@
                                         <descriptorRef>artifact</descriptorRef>
                                     </assembly>
                                     <!--定义容器启动命令-->
-                                    <entryPoint>["java", "-jar","-Dspring.profiles.active=prod","/${project.build.finalName}.jar"]</entryPoint>
+                                    <entryPoint>["java", "-Xmx128m", "-Xms128m", "-jar","-Dspring.profiles.active=prod", "/${project.build.finalName}.jar"]</entryPoint>
                                     <!--定义维护者-->
                                     <maintainer>ppdebug</maintainer>
                                 </build>

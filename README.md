@@ -4,7 +4,7 @@
 
 `mall`项目致力于打造一个完整的电商系统，采用现阶段流行技术实现。
 
-### 组织结构
+## 组织结构
 
 ``` lua
 mall
@@ -17,7 +17,7 @@ mall
 └── mall-demo -- 框架搭建时的测试代码
 ```
 
-### 技术选型
+## 技术选型
 
 | 技术                 | 说明                | 官网                                           |
 | -------------------- | ------------------- | ---------------------------------------------- |
@@ -41,7 +41,7 @@ mall
 | Swagger-UI           | 文档生成工具        | https://github.com/swagger-api/swagger-ui      |
 | Hibernator-Validator | 验证框架            | http://hibernate.org/validator                 |
 
-### 开发环境
+## 开发环境
 
 | 工具          | 版本号 | 下载                                                         |
 | ------------- | ------ | ------------------------------------------------------------ |
@@ -54,3 +54,7 @@ mall
 | Elasticsearch | 7.17.3 | https://www.elastic.co/downloads/elasticsearch               |
 | Logstash      | 7.17.3 | https://www.elastic.co/cn/downloads/logstash                 |
 | Kibana        | 7.17.3 | https://www.elastic.co/cn/downloads/kibana                   |
+
+## 部署文档
+
+> 部署采用docker-compose部署到centos7服务器上，部署流程参见[linux部署](document/deploy.md)

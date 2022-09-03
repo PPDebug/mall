@@ -2,4 +2,6 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: http://nacos-registry:8848
+        server-addr: http://${server-domain}:8848
+
+server-domain: ${SERVER_DOMAIN:localhost}

@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import online.pengpeng.mall.common.constant.AuthConstant;
 import online.pengpeng.mall.common.domain.UserDto;
+import online.pengpeng.mall.common.service.RedisService;
 import online.pengpeng.mall.config.IgnoreUrlsConfig;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
@@ -39,7 +40,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Slf4j
 public class AuthorizationManager implements ReactiveAuthorizationManager<AuthorizationContext> {
-    private final RedisTemplate<String, Object> redisTemplate;
+    private final RedisService redisService;
     private final IgnoreUrlsConfig ignoreUrlsConfig;
 
     @Override
@@ -94,7 +95,7 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
 
         // 管理端路径需要校验权限
         log.debug("管理路径检验权限");
-        Map<Object, Object> resourceRolesMap = redisTemplate.opsForHash().entries(AuthConstant.RESOURCE_ROLES_MAP_KEY);
+        Map<Object, Object> resourceRolesMap = redisService.hGetAll(AuthConstant.RESOURCE_ROLES_MAP_KEY);
         Iterator<Object> iterator = resourceRolesMap.keySet().iterator();
         List<String> authorities = new ArrayList<>();
         while (iterator.hasNext()) {

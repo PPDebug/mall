@@ -2,6 +2,7 @@ package online.pengpeng.mall.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import com.github.pagehelper.PageHelper;
+import lombok.extern.slf4j.Slf4j;
 import online.pengpeng.mall.common.constant.AuthConstant;
 import online.pengpeng.mall.common.service.RedisService;
 import online.pengpeng.mall.mapper.UmsResourceMapper;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
  * @date 2022/8/19
  */
 @Service
+@Slf4j
 public class UmsResourceServiceImpl implements UmsResourceService {
     private final UmsResourceMapper resourceMapper;
     private final UmsRoleMapper roleMapper;

@@ -20,6 +20,12 @@ spring:
     port: 6379 # Redis服务器连接端口
     password:  # Redis服务器连接密码（默认为空）
     timeout: 3000ms # 连接超时时间（毫秒）
+    lettuce:
+      pool:
+        max-idle: 30
+        max-active: 8
+        max-wait: -1
+        min-idle: 10
   rabbitmq: #rabbitmq相关配置
     host: ${server-domain}
     port: 5672
@@ -62,7 +68,7 @@ aliyun:
       prefix: mall/images/ # 上传文件夹路径前缀
 
 minio:
-  endpoint: http://${server-domain}:9090 #MinIO服务所在地址
+  endpoint: http://${server-domain}:9000 #MinIO服务所在地址
   bucketName: mall #存储桶名称
   accessKey: minioadmin #访问的key
   secretKey: minioadmin #访问的秘钥
