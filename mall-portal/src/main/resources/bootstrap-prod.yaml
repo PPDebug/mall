@@ -7,7 +7,7 @@ spring:
         server-addr: http://${server-domain}:8848
         file-extension: yaml
 
-server-domain: ${SERVER_DOMAIN:localhost}
+server-domain: ${IPADDRESS:localhost}
 
 logging:
   level:

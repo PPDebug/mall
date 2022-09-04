@@ -4,4 +4,4 @@ spring:
       discovery:
         server-addr: http://${server-domain}:8848
 
-server-domain: ${SERVER_DOMAIN:localhost}
+server-domain: ${IPADDRESS:localhost}

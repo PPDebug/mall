@@ -28,7 +28,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <skipTests>true</skipTests>
-        <docker.host>http://localhost:2375</docker.host>
+        <docker.host>http://192.168.56.200:2375</docker.host>
         <docker.maven.plugin.version>0.40.0</docker.maven.plugin.version>
         <java.version>1.8</java.version>
         <spring-cloud.version>Hoxton.SR5</spring-cloud.version>
@@ -244,7 +244,7 @@
                         <images>
                             <image>
                                 <!--定义镜像名称-->
-                                <name>mall/${project.name}:${project.version}</name>
+                                <name>ppdebug/${project.name}:${project.version}</name>
                                 <!--定义镜像构建行为-->
                                 <build>
                                     <!--定义基础镜像-->

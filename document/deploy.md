@@ -151,6 +151,7 @@ docker-compose --version
 上传镜像到服务器，可以手动打包上传，或者使用docker-maven-plugin插件直接打包到服务器（参考https://blog.51cto.com/lovebetterworld/2839888）
 
 ```bash
+export IPADDRESS=”中间件ip“
 docker-compose -f docker-compose-app.yml up -d
 ```
 
