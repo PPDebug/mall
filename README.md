@@ -4,6 +4,12 @@
 
 `mall`项目致力于打造一个完整的电商系统，采用现阶段流行技术实现。
 
+## 访问地址
+
+* ✨后端swagger-ui API: [http://47.92.53.207:8201/doc.html](http://47.92.53.207:8201/doc.html) 
+* 🔶管理员界面web-admin-app: [http://47.92.53.207](http://47.92.53.207)
+* 🦾用户界面wechat-app: coding
+
 ## 组织结构
 
 ``` lua
