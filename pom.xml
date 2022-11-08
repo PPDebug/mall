@@ -29,7 +29,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <skipTests>true</skipTests>
         <docker.host>http://192.168.56.200:2375</docker.host>
-        <docker.maven.plugin.version>0.40.0</docker.maven.plugin.version>
+        <dockerfile-maven.version>1.4.13</dockerfile-maven.version>
         <java.version>1.8</java.version>
         <spring-cloud.version>Hoxton.SR5</spring-cloud.version>
         <spring-cloud-alibaba.version>2.2.5.RELEASE</spring-cloud-alibaba.version>
@@ -225,47 +225,25 @@
                     <version>${spring-boot.version}</version>
                 </plugin>
                 <plugin>
-                    <groupId>io.fabric8</groupId>
-                    <artifactId>docker-maven-plugin</artifactId>
-                    <version>${docker.maven.plugin.version}</version>
+                    <groupId>com.spotify</groupId>
+                    <artifactId>dockerfile-maven-plugin</artifactId>
+                    <version>${dockerfile-maven.version}</version>
                     <executions>
-                        <!--如果想在项目打包时构建镜像添加-->
                         <execution>
-                            <id>build-image</id>
-                            <phase>package</phase>
+                            <id>default</id>
                             <goals>
                                 <goal>build</goal>
                             </goals>
                         </execution>
                     </executions>
                     <configuration>
-                        <!-- Docker 远程管理地址-->
-                        <dockerHost>${docker.host}</dockerHost>
-                        <images>
-                            <image>
-                                <!--定义镜像名称-->
-                                <name>ppdebug/${project.name}:${project.version}</name>
-                                <!--定义镜像构建行为-->
-                                <build>
-                                    <!--定义基础镜像-->
-                                    <from>openjdk:8-alpine</from>
-                                    <args>
-                                        <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
-                                    </args>
-                                    <!--定义哪些文件拷贝到容器中-->
-                                    <assembly>
-                                        <!--定义拷贝到容器的目录-->
-                                        <targetDir>/</targetDir>
-                                        <!--只拷贝生成的jar包-->
-                                        <descriptorRef>artifact</descriptorRef>
-                                    </assembly>
-                                    <!--定义容器启动命令-->
-                                    <entryPoint>["java", "-Xmx128m", "-Xms128m", "-jar","-Dspring.profiles.active=prod", "/${project.build.finalName}.jar"]</entryPoint>
-                                    <!--定义维护者-->
-                                    <maintainer>ppdebug</maintainer>
-                                </build>
-                            </image>
-                        </images>
+                        <repository>ppdebug/${project.artifactId}</repository>
+                        <tag>${project.version}</tag>
+                        <dockerfile>Dockerfile</dockerfile>
+                        <contextDirectory>${project.basedir}</contextDirectory>
+                        <buildArgs>
+                            <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
+                        </buildArgs>
                     </configuration>
                 </plugin>
             </plugins>
