@@ -4,7 +4,7 @@ MAINTAINER PPDebug <pengpeng.coding@gmail.com>
 ENV IPADDRESS 127.0.0.1
 ENV PRING_PROFILES_ACTIVE=prod
 ENV JAVA_OPTS="-Xms=512m -Xmx=512m"
-ENTRYPOINT ["java", "-jar", "$JAVA_OPTS", "/usr/share/myservice/myservice.jar"]
+ENTRYPOINT ["java", "-jar", "/usr/share/myservice/myservice.jar", "$JAVA_OPTS"]
 
 EXPOSE 8080
 
