@@ -12,5 +12,5 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient("mall-admin")
 public interface UmsAdminService {
     @GetMapping("/admin/loadByUsername")
-    UserDto loadUserBuUsername(@RequestParam String username);
+    UserDto loadUserByUsername(@RequestParam String username);
 }

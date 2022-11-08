@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import online.pengpeng.mall.auth.domain.Oauth2TokenDto;
 import online.pengpeng.mall.common.api.CommonResult;
 import online.pengpeng.mall.common.constant.AuthConstant;
@@ -13,6 +14,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,6 +26,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/oauth")
 @AllArgsConstructor
+@Slf4j
 public class AuthController {
     private TokenEndpoint tokenEndpoint;
 
@@ -43,13 +46,15 @@ public class AuthController {
         parameters.putIfAbsent("refresh_token",refresh_token);
         parameters.putIfAbsent("username",username);
         parameters.putIfAbsent("password",password);
-        OAuth2AccessToken oAuth2AccessToken = tokenEndpoint.postAccessToken(request.getUserPrincipal(), parameters).getBody();
+        Principal userPrincipal = request.getUserPrincipal();
+        OAuth2AccessToken oAuth2AccessToken = tokenEndpoint.postAccessToken(userPrincipal, parameters).getBody();
         Oauth2TokenDto oauth2TokenDto = Oauth2TokenDto.builder()
                 .token(oAuth2AccessToken.getValue())
                 .refreshToken(oAuth2AccessToken.getRefreshToken().getValue())
                 .expiresIn(oAuth2AccessToken.getExpiresIn())
                 .tokenHead(AuthConstant.JWT_TOKEN_PREFIX).build();
 
+        log.info("oauth2Token is: {}", oAuth2AccessToken);
         return CommonResult.success(oauth2TokenDto);
     }
 

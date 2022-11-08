@@ -6,6 +6,7 @@ import cn.hutool.crypto.digest.BCrypt;
 import cn.hutool.json.JSONUtil;
 import com.github.pagehelper.PageHelper;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import online.pengpeng.mall.common.api.CommonResult;
 import online.pengpeng.mall.common.api.ResultCode;
 import online.pengpeng.mall.common.constant.AuthConstant;
@@ -43,6 +44,7 @@ import java.util.stream.Collectors;
  * @date 2022/8/19
  */
 @Service
+@Slf4j
 public class UmsAdminServiceImpl implements UmsAdminService {
     private static final Logger LOGGER = LoggerFactory.getLogger(UmsAdminServiceImpl.class);
     @Autowired
@@ -103,6 +105,7 @@ public class UmsAdminServiceImpl implements UmsAdminService {
         params.put("username",username);
         params.put("password",password);
         CommonResult restResult = authService.getAccessToken(params);
+        log.info("feign invoked authService, result is {}", restResult.toString());
         if(ResultCode.SUCCESS.getCode()==restResult.getCode()&&restResult.getData()!=null){
             updateLoginTimeByUsername(username);
             insertLoginLog(username);

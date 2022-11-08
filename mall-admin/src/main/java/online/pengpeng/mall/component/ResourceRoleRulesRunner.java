@@ -28,9 +28,9 @@ public class ResourceRoleRulesRunner implements CommandLineRunner {
 
     /**
      * cron表达式：Seconds Minutes Hours DayofMonth Month DayofWeek [Year]
-     * 10秒更新一次
+     * 10分钟更新一次
      * */
-    @Scheduled(cron = "0/10 * * ? * ?")
+    @Scheduled(cron = "0 0/10 * ? * ?")
     private void update() {
         resourceService.initResourceRolesMap();
         log.debug("update resource map");

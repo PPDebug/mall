@@ -1,13 +1,13 @@
 package online.pengpeng.mall.auth.service.impl;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import online.pengpeng.mall.auth.constant.MessageConstant;
 import online.pengpeng.mall.auth.domain.SecurityUser;
 import online.pengpeng.mall.auth.service.UmsAdminService;
 import online.pengpeng.mall.auth.service.UmsMemberService;
 import online.pengpeng.mall.common.constant.AuthConstant;
 import online.pengpeng.mall.common.domain.UserDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.authentication.DisabledException;
@@ -18,7 +18,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.ws.handler.MessageContext;
 
 /**
  * @author pengpeng
@@ -26,6 +25,7 @@ import javax.xml.ws.handler.MessageContext;
  */
 @Service
 @AllArgsConstructor
+@Slf4j
 public class UserServiceIml implements UserDetailsService {
     private final UmsAdminService adminService;
     private final UmsMemberService memberService;
@@ -36,7 +36,7 @@ public class UserServiceIml implements UserDetailsService {
         String clientId = request.getParameter("client_id");
         UserDto userDto;
         if (AuthConstant.ADMIN_CLIENT_ID.equals(clientId)) {
-            userDto = adminService.loadUserBuUsername(username);
+            userDto = adminService.loadUserByUsername(username);
         } else {
             userDto = memberService.loadUserBuUsername(username);
         }
@@ -55,6 +55,7 @@ public class UserServiceIml implements UserDetailsService {
         } else if (!securityUser.isCredentialsNonExpired()) {
             throw new CredentialsExpiredException(MessageConstant.CREDENTIALS_EXPIRED);
         }
+        log.info("securityUser: {}", securityUser);
         return securityUser;
     }
 }
