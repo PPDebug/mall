@@ -1,6 +1,7 @@
 FROM openjdk:8-jre
 MAINTAINER PPDebug <pengpeng.coding@gmail.com>
 
+ENV IPADDRESS 127.0.0.1
 ENTRYPOINT ["java", "-jar", "/usr/share/myservice/myservice.jar"]
 
 EXPOSE 8085
