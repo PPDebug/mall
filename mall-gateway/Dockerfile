@@ -2,7 +2,7 @@ FROM openjdk:8-jre
 MAINTAINER PPDebug <pengpeng.coding@gmail.com>
 
 ENV IPADDRESS 127.0.0.1
-ENV PRING_PROFILES_ACTIVE=prod
+ENV SPRING_PROFILES_ACTIVE=prod
 ENV JAVA_OPTS="-Xms=512m -Xmx=512m"
 ENTRYPOINT ["java", "-jar", "/usr/share/myservice/myservice.jar", "$JAVA_OPTS"]
 
