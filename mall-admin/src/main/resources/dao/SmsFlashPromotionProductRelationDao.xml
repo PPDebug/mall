@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="online.pengpeng.mall.dao.SmsFlashPromotionProductRelationDao">
     <resultMap id="flashProductMap" type="online.pengpeng.mall.dto.SmsFlashPromotionProduct" extends="online.pengpeng.mall.mapper.SmsFlashPromotionProductRelationMapper.BaseResultMap">
-        <association property="product" resultMap="online.pengpeng.mall.mapper.PmsProductMapper.BaseResultMap" columnPrefix="p_"/>
+        <association property="productAttributeList" resultMap="online.pengpeng.mall.mapper.PmsProductMapper.BaseResultMap" columnPrefix="p_"/>
     </resultMap>
     <select id="getList" resultMap="flashProductMap">
         SELECT
